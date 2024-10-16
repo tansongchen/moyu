@@ -1,0 +1,16 @@
+{
+  "name": "摸鱼",
+  "short_name": "摸鱼",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "src": "https://tansongchen.com/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

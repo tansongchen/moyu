@@ -11,19 +11,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  height: 100%;
 }
 
 body {
   margin: 0;
+  height: 100%;
 }
 
 #root {
@@ -34,7 +28,7 @@ body {
   gap: 1em;
   max-width: 960px;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 h1 {
@@ -54,11 +48,5 @@ h1 {
   :root {
     color: #213547;
     background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }
