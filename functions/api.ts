@@ -15,14 +15,16 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
   if (request.method == "GET") {
     const data = await notion.databases.query({ database_id });
     const results = data.results as DatabaseObjectResponse[];
-    const times = results.map((x) => {
-      const date = x.properties["日期"] as unknown as {
-        date: { start: string };
-      };
-      return date.date.start;
+    const datetimes = results.map((x) => {
+      const date = x.properties["日期"];
+      if (date.type !== "date") {
+        return undefined;
+      }
+      return date.date.start as string;
     });
-    return new Response(JSON.stringify(times));
+    return new Response(JSON.stringify(datetimes));
   } else if (request.method == "POST") {
+    const { datetime } = await request.json<{ datetime: string }>();
     const response = await notion.pages.create({
       parent: { type: "database_id", database_id },
       properties: {
@@ -32,7 +34,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
         },
         日期: {
           type: "date",
-          date: { start: new Date().toISOString() },
+          date: { start: datetime },
         },
       },
     });

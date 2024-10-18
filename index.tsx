@@ -125,7 +125,8 @@ const Plot: React.FC = () => {
       .then((raw) => {
         const data = new Map<string, number>();
         raw.forEach((d) => {
-          const datetime = new Date(d);
+          // remove time zone
+          const datetime = new Date(d.slice(0, d.length - 6));
           const date = datetime.toLocaleDateString();
           const time = datetime.getHours() * 60 + datetime.getMinutes();
           data.set(date, time);
