@@ -118,22 +118,27 @@ const Card = ({ type, average }: { type: string; average?: number }) => {
 const Plot: React.FC = () => {
   const [data, setData] = useState(new Map<string, number>());
   const [past, setPast] = useState(10);
+  let path = window.location.pathname.slice(1);
+  if (path === "") {
+    path = "谭淞宸";
+  }
 
   useEffect(() => {
     fetch("/api")
-      .then((res) => res.json() as Promise<string[]>)
+      .then((res) => res.json() as Promise<{ datetime: string, name: string }[]>)
       .then((raw) => {
         const data = new Map<string, number>();
-        raw.forEach((d) => {
+        raw.forEach(({ datetime: datetime_s, name }) => {
+          if (name !== path) return;
           // remove time zone
-          const datetime = new Date(d.slice(0, d.length - 6));
+          const datetime = new Date(datetime_s.slice(0, datetime_s.length - 6));
           const date = datetime.toLocaleDateString();
           const time = datetime.getHours() * 60 + datetime.getMinutes();
           data.set(date, time);
         });
         setData(data);
       });
-  }, []);
+  }, [path]);
 
   const now = new Date();
 
@@ -150,6 +155,7 @@ const Plot: React.FC = () => {
 
   return (
     <>
+      <h1>{path} 今天摸鱼了吗？</h1>
       <ListGroup horizontal={true}>
         <Card type="今日" average={data.get(now.toLocaleDateString())} />
         <Card type="周均" average={week} />
@@ -193,7 +199,6 @@ const Plot: React.FC = () => {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <h1>谭淞宸今天摸鱼了吗？</h1>
     <Plot />
   </StrictMode>
 );
